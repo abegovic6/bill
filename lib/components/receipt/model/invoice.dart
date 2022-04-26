@@ -9,10 +9,13 @@ class BillModel {
       {required this.info, required this.items, required this.supplier});
 
   factory BillModel.fromJson(dynamic json) {
-    return BillModel(
-        info: json["billInfo"],
-        items: json["billItems"],
-        supplier: json["billSupplier"]);
+    final billInfo = BillInfo.fromJson(json["billInfo"]);
+    final billSupplier = BillSupplier.fromJson(json["billSupplier"]);
+    var tagObjsJson = json["billItems"] as List;
+    List<BillItem> tagObjs =
+        tagObjsJson.map((tagJson) => BillItem.fromJson(tagJson)).toList();
+
+    return BillModel(info: billInfo, items: tagObjs, supplier: billSupplier);
   }
 }
 
@@ -57,10 +60,10 @@ class BillItem {
   factory BillItem.fromJson(dynamic json) {
     return BillItem(
         name: json["name"],
-        quantity: json["quantity"],
+        quantity: json["quantity"].toDouble(),
         mesuarment: json["measurment"],
         vat: json["vat"],
-        unitPrice: json["unitPrice"]);
+        unitPrice: json["unitPrice"].toDouble());
   }
 
   Map<String, dynamic> toMap() {

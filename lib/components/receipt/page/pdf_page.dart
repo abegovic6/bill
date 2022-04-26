@@ -53,10 +53,10 @@ class _PdfPageState extends State<PdfPage> {
 
   static Future fetchData() async {
     final queryParameters = {
-      "UserOrderId": "1",
-      "CurrentUserId": "1",
-      "CashRegisterId": "1",
-      "ShopId": "1"
+      "UserOrderId": 1,
+      "CurrentUserId": 1,
+      "CashRegisterId": 1,
+      "ShopId": 1
     };
 
     //final uri = Uri.parse('https://192.168.1.2:7194/api/ProductUserOrderIntertables/bill', queryParameters)
@@ -65,11 +65,18 @@ class _PdfPageState extends State<PdfPage> {
       Uri.parse(
           'https://192.168.1.2:7194/api/ProductUserOrderIntertables/bill'),
       headers: <String, String>{
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: queryParameters,
+      body: jsonEncode(<String, int>{
+        "UserOrderId": 1,
+        "CurrentUserId": 1,
+        "CashRegisterId": 1,
+        "ShopId": 1
+      }),
     );
 
-    return BillModel.fromJson(response.body);
+    response.body;
+
+    return BillModel.fromJson(jsonDecode(response.body));
   }
 }
